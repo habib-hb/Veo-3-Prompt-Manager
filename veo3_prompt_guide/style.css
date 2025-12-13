@@ -75,6 +75,13 @@ section {
   background: transparent; /* User requested transparent background */
 }
 
+.dev-credit {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #888;
+    font-family: var(--font-body);
+}
+
 .section-intro {
   margin-bottom: 1.5rem;
   color: #aaa;
