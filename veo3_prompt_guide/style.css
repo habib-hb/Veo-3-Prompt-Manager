@@ -26,8 +26,8 @@ body {
 
 h1 {
   font-size: 3.5rem;
-  /* Green -> Cyan -> Bright Magenta -> Green */
-  background: linear-gradient(90deg, #00ff88, #00ccff, #ff00cc, #00ff88);
+  /* Green -> Cyan -> Bright Yellow -> Green */
+  background: linear-gradient(90deg, #00ff88, #00ccff, #ffcc00, #00ff88);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
