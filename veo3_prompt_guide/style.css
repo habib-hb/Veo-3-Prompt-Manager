@@ -26,10 +26,20 @@ body {
 
 h1 {
   font-size: 3.5rem;
-  background: linear-gradient(to right, #fff, var(--accent-secondary));
+  /* Green -> Cyan -> Bright Magenta -> Green */
+  background: linear-gradient(90deg, #00ff88, #00ccff, #ff00cc, #00ff88);
+  background-size: 200% auto;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: transparent;
   margin-bottom: 1rem;
+  animation: gradient-move 8s linear infinite;
+}
+
+@keyframes gradient-move {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
 }
 
 h2 {
@@ -62,7 +72,7 @@ section {
 .hero {
   text-align: center;
   padding: 4rem 0;
-  background: radial-gradient(circle at center, rgba(0, 255, 136, 0.05) 0%, transparent 60%);
+  background: transparent; /* User requested transparent background */
 }
 
 .section-intro {
