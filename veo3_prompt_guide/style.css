@@ -37,6 +37,7 @@ h1 {
   color: transparent;
   margin-bottom: 1rem;
   animation: gradient-move 8s linear infinite;
+  padding-inline: 8px;
 }
 
 @keyframes gradient-move {
