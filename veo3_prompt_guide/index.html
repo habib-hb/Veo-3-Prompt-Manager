@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veo 3 Prompt Builder | Director's Toolkit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- GSAP via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+    <div class="floating-shapes">
+        <div class="shape" style="top: 10%; left: 10%;"></div>
+        <div class="shape" style="bottom: 20%; right: 10%; background: var(--accent-secondary);"></div>
+    </div>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Veo 3 <br><span class="highlight">Interactive Prompt Builder</span></h1>
+            <p class="section-intro">Select options below to construct your high-control prompt.</p>
+        </div>
+    </header>
+
+    <main class="container" style="padding-bottom: 250px;">
+        
+        <!-- 1. CINEMATOGRAPHY -->
+        <section id="cinematography" class="prompt-section" data-key="Cinematography">
+            <h2>1. Cinematography</h2>
+            <p class="section-intro">Defines how the scene is shot.</p>
+            
+            <div class="grid">
+                <div class="card" data-category="shotSize">
+                    <div class="card-header">
+                        <h3>A. Shot Size</h3>
+                        <div class="controls">
+                            <button class="icon-btn add-btn" title="Add Option"><i class="fas fa-plus"></i></button>
+                            <button class="icon-btn del-btn" title="Delete Option"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="options-grid"></div> <!-- Dynamic Content -->
+                </div>
+                <div class="card" data-category="cameraAngle">
+                    <div class="card-header">
+                        <h3>B. Camera Angle</h3>
+                        <div class="controls">
+                            <button class="icon-btn add-btn"><i class="fas fa-plus"></i></button>
+                            <button class="icon-btn del-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+                <div class="card" data-category="movement">
+                    <div class="card-header">
+                        <h3>C. Movement</h3>
+                        <div class="controls">
+                            <button class="icon-btn add-btn"><i class="fas fa-plus"></i></button>
+                            <button class="icon-btn del-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+                <div class="card" data-category="lens">
+                    <div class="card-header">
+                        <h3>D. Lens & Focus</h3>
+                        <div class="controls">
+                            <button class="icon-btn add-btn"><i class="fas fa-plus"></i></button>
+                            <button class="icon-btn del-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+            </div>
+            <textarea class="extra-details" placeholder="Add extra cinematography details..."></textarea>
+        </section>
+
+        <!-- 2. SUBJECT -->
+        <section id="subject" class="prompt-section" data-key="Subject">
+            <h2>2. Subject</h2>
+            <p class="section-intro">Defines WHO is in the scene.</p>
+            
+            <div class="grid">
+                <div class="card full-width-card" data-category="subjectDetails">
+                    <div class="card-header">
+                        <h3>Character Details</h3>
+                         <div class="controls">
+                            <button class="icon-btn add-btn"><i class="fas fa-plus"></i></button>
+                            <button class="icon-btn del-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+            </div>
+            <textarea class="extra-details" placeholder="Describe the subject..."></textarea>
+        </section>
+
+        <!-- 3. ACTION -->
+        <section id="action" class="prompt-section" data-key="Action">
+            <h2>3. Action</h2>
+            <p class="section-intro">Defines WHAT is happening.</p>
+            
+            <div class="grid">
+                <div class="card full-width-card" data-category="actionDetails">
+                    <div class="card-header">
+                        <h3>Verb Quality & Pacing</h3>
+                         <div class="controls">
+                            <button class="icon-btn add-btn"><i class="fas fa-plus"></i></button>
+                            <button class="icon-btn del-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+            </div>
+            <textarea class="extra-details" placeholder="Describe the action..."></textarea>
+        </section>
+
+        <!-- 4. CONTEXT -->
+        <section id="context" class="prompt-section" data-key="Context">
+            <h2>4. Context & Setting</h2>
+             <p class="section-intro">Defines WHERE and WHEN.</p>
+            <div class="grid">
+                <div class="card" data-category="environment">
+                    <div class="card-header">
+                        <h3>Environment</h3>
+                         <div class="controls">
+                            <button class="icon-btn add-btn"><i class="fas fa-plus"></i></button>
+                            <button class="icon-btn del-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+                <div class="card" data-category="setDressing">
+                    <div class="card-header">
+                        <h3>Set Dressing</h3>
+                         <div class="controls">
+                            <button class="icon-btn add-btn"><i class="fas fa-plus"></i></button>
+                            <button class="icon-btn del-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+            </div>
+            <textarea class="extra-details" placeholder="Describe the setting..."></textarea>
+        </section>
+
+        <!-- 5. VISUAL STYLE -->
+        <section id="visual-style" class="prompt-section" data-key="Style & Ambiance">
+            <h2>5. Style & Ambiance</h2>
+            <p class="section-intro">Defines the aesthetic soul.</p>
+            
+            <div class="grid">
+                <div class="card full-width-card" data-category="artStyle">
+                    <div class="card-header">
+                        <h3>Artistic Style</h3>
+                         <div class="controls">
+                            <button class="icon-btn add-btn"><i class="fas fa-plus"></i></button>
+                            <button class="icon-btn del-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+                <div class="card" data-category="lighting">
+                    <div class="card-header">
+                        <h3>Lighting</h3>
+                         <div class="controls">
+                            <button class="icon-btn add-btn"><i class="fas fa-plus"></i></button>
+                            <button class="icon-btn del-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+            </div>
+            <textarea class="extra-details" placeholder="Add style details..."></textarea>
+        </section>
+
+        <!-- 6. AUDIO -->
+        <section id="audio" class="prompt-section" data-key="Audio">
+            <h2>6. Audio & Output</h2>
+            <div class="grid">
+                <div class="card full-width-card" data-category="audioConstraints">
+                    <div class="card-header">
+                        <h3>Constraints</h3>
+                         <div class="controls">
+                            <button class="icon-btn add-btn"><i class="fas fa-plus"></i></button>
+                            <button class="icon-btn del-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+            </div>
+            <textarea class="extra-details" placeholder="Describe audio..."></textarea>
+        </section>
+
+    </main>
+    
+    <!-- FIXED OUTPUT BAR -->
+    <div id="prompt-output-container">
+        <label>Generated Prompt</label>
+        <div id="generated-prompt">Select Options or Type text...</div>
+        <button id="copy-btn">Copy</button>
+    </div>
+
+    <!-- MODAL OVERLAY -->
+    <div id="modal-overlay" class="hidden">
+        <!-- ADD MODAL -->
+        <div id="add-modal" class="modal-content hidden">
+            <h3>Add New Option</h3>
+            <input type="text" id="new-option-input" placeholder="Enter option name...">
+            <div class="modal-actions">
+                <button id="cancel-add" class="modal-btn cancel">Cancel</button>
+                <button id="confirm-add" class="modal-btn confirm">Add</button>
+            </div>
+        </div>
+
+        <!-- DELETE MODAL -->
+        <div id="delete-modal" class="modal-content hidden">
+            <h3>Delete Options</h3>
+            <p class="modal-subtitle">Click the trash icon to remove an option.</p>
+            <div id="delete-list" class="delete-list-container">
+                <!-- JS will populate this -->
+            </div>
+            <div class="modal-actions">
+                <button id="close-delete" class="modal-btn confirm">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
