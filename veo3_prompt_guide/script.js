@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const promptOutput = document.getElementById('generated-prompt');
         if (fullPrompt.trim() === "") {
-            promptOutput.textContent = "Select Options or Type text...";
+            promptOutput.textContent = "Your Generated Prompt will be shown here.";
             promptOutput.style.color = "#555";
         } else {
             promptOutput.textContent = fullPrompt.trim();
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const copyBtn = document.getElementById('copy-btn');
     copyBtn.addEventListener('click', () => {
         const text = document.getElementById('generated-prompt').textContent;
-        if (!text.startsWith("Select Options")) {
+        if (!text.startsWith("Your Generated Prompt")) {
             navigator.clipboard.writeText(text);
             const original = copyBtn.textContent;
             copyBtn.textContent = "Copied!";
