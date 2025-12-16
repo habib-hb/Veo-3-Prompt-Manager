@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lens: ["Shallow Depth of Field", "Deep Focus", "100mm+ Telephoto Lens", "15-24mm Wide Angle Lens", "Rack Focus"],
         subjectDetails: ["Young Adult (20s)", "Elderly", "Child", "Stoic Expression", "Terrified Expression", "Ecstatic Expression"],
         actionDetails: ["Striding", "Limping", "Sneaking", "Slowly", "Hesitantly", "Aggressively"],
+        transitions: ["The Cut", "The Fade", "Fade from Black", "Fade to Black", "Dip to Black", "Fade to White", "The Dissolve", "Superimposition", "Match Cut", "Match Dissolve", "The Iris", "The Wipe", "The Passing Transition", "Whip Pan", "Smash Cut", "J-Cut", "L-Cut"],
         environment: ["1980s New York", "Victorian London", "Mars Colony", "Heavy Rain", "Thick Fog", "Blizzard"],
         setDressing: ["Crowded", "Empty", "Neon Signs", "Debris/Ruins"],
         artStyle: ["Hyper-realistic", "Photorealistic", "Cinematic 35mm", "Synthwave", "Ghibli Style", "Cyberpunk Anime", "Claymation", "Film Noir", "Wes Anderson Style", "Analog Film Grain"],
