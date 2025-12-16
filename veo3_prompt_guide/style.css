@@ -45,6 +45,23 @@ h1 {
   100% { background-position: 200% 50%; }
 }
 
+.logo-container {
+  width: 250px;
+  height: 80px;
+  margin: 0 auto 1rem auto;
+  background: linear-gradient(90deg, #00ff88, #00ccff, #ffcc00, #00ff88);
+  background-size: 200% auto;
+  animation: gradient-move 8s linear infinite;
+  -webkit-mask-image: url('assets/images/logo.png');
+  mask-image: url('assets/images/logo.png');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
 h2 {
   font-size: 2rem;
   color: var(--accent-color);
@@ -522,3 +539,5 @@ section {
     background: #333;
     border-radius: 3px;
 }
+
+
