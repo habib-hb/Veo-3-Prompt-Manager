@@ -224,8 +224,197 @@ document.addEventListener('DOMContentLoaded', () => {
             const original = copyBtn.textContent;
             copyBtn.textContent = "Copied!";
             setTimeout(() => copyBtn.textContent = original, 2000);
+            
+            addToHistory(text);
         }
     });
+
+    // --- 5. HISTORY MANAGEMENT ---
+    let historyData = [];
+    const historySidebar = document.getElementById('history-sidebar');
+    const historyList = document.getElementById('history-list');
+
+    function loadHistory() {
+        const stored = localStorage.getItem('veo3_prompt_history');
+        if (stored) {
+            historyData = JSON.parse(stored);
+            renderHistory();
+        }
+    }
+
+    function saveHistory() {
+        localStorage.setItem('veo3_prompt_history', JSON.stringify(historyData));
+    }
+
+    function addToHistory(fullText) {
+        // Extract Subject Title
+        let title = "Untitled Prompt";
+        const subjectMatch = fullText.match(/\[Subject\]: (.*)/);
+        if (subjectMatch) {
+            // Get first 3 words
+            const words = subjectMatch[1].split(' ');
+            title = words.slice(0, 3).join(' ') + (words.length > 3 ? "..." : "");
+        } else {
+            // Fallback: First 3 words of the whole text
+            const words = fullText.split(' ');
+            title = words.slice(0, 3).join(' ') + "...";
+        }
+        
+        // Extract Hover Preview (First 50 words of Subject)
+        let preview = "";
+        if (subjectMatch) {
+             const words = subjectMatch[1].split(' ');
+             preview = words.slice(0, 50).join(' ') + (words.length > 50 ? "..." : "");
+        }
+
+        const newItem = {
+            id: Date.now(),
+            title: title,
+            preview: preview || "No subject details.",
+            fullText: fullText,
+            timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+        };
+
+        historyData.unshift(newItem); // Add to top
+        if (historyData.length > 50) historyData.pop(); // Limit size
+        saveHistory();
+        renderHistory();
+        
+        // Optional: Open sidebar to show it was saved? 
+        // User didn't ask, but it's good feedback. Let's not prompt intrusive behavior though.
+        // Maybe just a small notification? The Copy button "Copied!" is enough.
+    }
+
+    function renderHistory() {
+        historyList.innerHTML = '';
+        if (historyData.length === 0) {
+            historyList.innerHTML = '<p style="color: grey; text-align: center; margin-top: 2rem;">No history yet.</p>';
+            return;
+        }
+
+        historyData.forEach(item => {
+            const el = document.createElement('div');
+            el.className = 'history-item';
+            
+            // Tooltip
+            const tooltip = document.createElement('div');
+            tooltip.className = 'history-tooltip';
+            tooltip.textContent = item.preview;
+            
+            const titleEl = document.createElement('div');
+            titleEl.className = 'history-item-title';
+            titleEl.textContent = item.title;
+            
+            const dateEl = document.createElement('div');
+            dateEl.className = 'history-item-date';
+            dateEl.textContent = item.timestamp;
+            
+            el.appendChild(titleEl);
+            el.appendChild(dateEl);
+            el.appendChild(tooltip);
+            
+            el.addEventListener('click', () => {
+                restorePrompt(item.fullText);
+                historySidebar.classList.remove('open'); // Auto close on select
+            });
+            
+            historyList.appendChild(el);
+        });
+    }
+
+    function restorePrompt(fullText) {
+        // 1. Reset State
+        activeSelections = {}; 
+        document.querySelectorAll('.extra-details').forEach(el => el.value = '');
+        
+        // 2. Parse Blocks
+        const blocks = fullText.split('\n\n');
+        
+        blocks.forEach(block => {
+            const match = block.match(/^\[(.*?)\]: ([\s\S]*)$/);
+            if(!match) return;
+            
+            const sectionKey = match[1];
+            const content = match[2];
+            
+            const sectionEl = document.querySelector(`.prompt-section[data-key="${sectionKey}"]`);
+            if(!sectionEl) return;
+            
+            // 3. Smart Matching Loop
+            const parts = content.split(', ');
+            let remainingText = [];
+            let findingOptions = true;
+            
+            // Get all categories in this section
+            const catKeys = [];
+            sectionEl.querySelectorAll('.card').forEach(card => {
+                if(card.dataset.category) catKeys.push(card.dataset.category);
+            });
+            
+            for (let i = 0; i < parts.length; i++) {
+                let part = parts[i].trim();
+
+                if (findingOptions) {
+                    let foundMatch = false;
+
+                    // A. Try exact match
+                    for (const catKey of catKeys) {
+                        const opts = appData[catKey];
+                        if (opts && opts.includes(part)) {
+                            updateSelectionState(catKey, part, true);
+                            foundMatch = true;
+                            break; 
+                        }
+                    }
+                    
+                    // B. Try matching with next part (for options containing a comma)
+                    if (!foundMatch && i + 1 < parts.length) {
+                         const merged = part + ", " + parts[i+1].trim();
+                         for (const catKey of catKeys) {
+                            const opts = appData[catKey];
+                            if (opts && opts.includes(merged)) {
+                                updateSelectionState(catKey, merged, true);
+                                foundMatch = true;
+                                i++; // Skip the next part as it's used here
+                                break; 
+                            }
+                        }
+                    }
+                    
+                    if (!foundMatch) {
+                        findingOptions = false; // Switch to text mode
+                        remainingText.push(part);
+                    }
+                } else {
+                    remainingText.push(part);
+                }
+            }
+            
+            // Fill Textarea
+            if (remainingText.length > 0) {
+                 const ta = sectionEl.querySelector('.extra-details');
+                 if(ta) ta.value = remainingText.join(', ');
+            }
+        });
+        
+        // 3. Update UI
+        renderAllSections();
+        generatePrompt();
+    }
+
+    // Toggle Listeners
+    const toggleBtn = document.getElementById('history-toggle-btn');
+    const closeBtn = document.getElementById('history-close-btn');
+    
+    if(toggleBtn) toggleBtn.addEventListener('click', () => {
+        historySidebar.classList.add('open');
+        renderHistory(); // Ensure fresh render
+    });
+    
+    if(closeBtn) closeBtn.addEventListener('click', () => historySidebar.classList.remove('open'));
+
+    // Load initial
+    loadHistory();
 
     // --- INIT ---
     loadState();

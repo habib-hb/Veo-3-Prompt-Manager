@@ -21,6 +21,23 @@
         <div class="shape" style="bottom: 20%; right: 10%; background: var(--accent-secondary);"></div>
     </div>
 
+    <!-- HISTORY TOGGLE -->
+    <button id="history-toggle-btn" class="icon-btn" title="Prompt History" style="position: fixed; top: 20px; left: 20px; z-index: 1000; width: 40px; height: 40px; border-radius: 50%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); border: 1px solid var(--glass-border);">
+        <i class="fas fa-history" style="color: var(--accent-color);"></i>
+    </button>
+
+    <!-- HISTORY SIDEBAR -->
+    <aside id="history-sidebar" class="hidden-sidebar">
+        <div class="sidebar-header">
+            <h3>Prompt History</h3>
+            <button id="history-close-btn" class="icon-btn close-sidebar"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="history-list" class="sidebar-content">
+            <!-- History Items Injected Here -->
+             <p style="color: grey; text-align: center; margin-top: 2rem;">No history yet.</p>
+        </div>
+    </aside>
+
     <!-- HERO -->
     <header class="hero">
         <div class="hero-content">
