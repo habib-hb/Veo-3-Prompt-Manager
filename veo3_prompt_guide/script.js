@@ -6,17 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const defaultData = {
         shotSize: ["Extreme Close-Up (ECU)", "Close-Up (CU)", "Medium Close-Up (MCU)", "Medium Shot (MS)", "Medium Full Shot (MFS)", "Full Shot (FS)", "Wide Shot (WS)", "Extreme Wide Shot (EWS)"],
         cameraAngle: ["Eye-Level", "High Angle", "Low Angle", "Dutch Angle", "Over-the-Shoulder (OTS)", "Point-of-View (POV)"],
-        movement: ["Static Shot", "Pan", "Tilt", "Dolly-In", "Dolly-Out", "Tracking Shot", "Crane Shot", "Handheld"],
-        lens: ["Shallow Depth of Field", "Deep Focus", "100mm+ Telephoto Lens", "15-24mm Wide Angle Lens", "Rack Focus"],
-        subjectDetails: ["Young Adult (20s)", "Elderly", "Child", "Stoic Expression", "Terrified Expression", "Ecstatic Expression"],
+        movement: ["Static Shot", "Pan", "Tilt", "Dolly-In", "Dolly-Out", "Tracking Shot", "Crane Shot", "Handheld", "Push In", "Pull Out", "Zoom", "Camera Roll", "Trucking Shot", "Arc Shot", "Boom Shot"],
+        lens: ["Shallow Depth of Field", "Deep Focus", "Rack Focus", "Soft Focus", "Split Diopter", "Tilt Shift"],
+        subjectDetails: ["Young Adult (20s)", "Elderly", "Child", "Man", "Woman", "A Teapot", "A Cat"],
         actionDetails: ["Striding", "Limping", "Sneaking", "Slowly", "Hesitantly", "Aggressively"],
-        transitions: ["The Cut", "The Fade", "Fade from Black", "Fade to Black", "Dip to Black", "Fade to White", "The Dissolve", "Superimposition", "Match Cut", "Match Dissolve", "The Iris", "The Wipe", "The Passing Transition", "Whip Pan", "Smash Cut", "J-Cut", "L-Cut"],
         environment: ["1980s New York", "Victorian London", "Mars Colony", "Heavy Rain", "Thick Fog", "Blizzard"],
         setDressing: ["Crowded", "Empty", "Neon Signs", "Debris/Ruins"],
-        artStyle: ["Hyper-realistic", "Photorealistic", "Cinematic 35mm", "Synthwave", "Ghibli Style", "Cyberpunk Anime", "Claymation", "Film Noir", "Wes Anderson Style", "Analog Film Grain"],
-        lighting: ["Golden Hour", "Blue Hour", "Hard Light", "Soft Diffused Light", "Rim Lighting", "Chiaroscuro"],
+        artStyle: ["Hyper-realistic", "Photorealistic", "Cinematic 35mm", "Synthwave", "Ghibli Style", "Cyberpunk Anime", "Claymation", "Film Noir", "Wes Anderson Style", "Analog Film Grain", "Attack On Titan Anime", "Pixar", "Unreal Engine", "Batman Cartoon", "Tokyo Ghul Anime", "Arcane"],
+        lighting: ["Hard Light", "Soft Diffused Light", "Rim Lighting", "Chiaroscuro", "Tungsten", "Golden Hour", "High Key Lighting", "Low Key Lighting", "Blue Hour", "Smart Side", "Lens Flares", "Bokeh", "Natural Light", "Artificial Light", "Ambient Lighting", "Motivated Lighting"],
+        audioConstraints: ["(No text overlay, no subtitles)", "(No music, only SFX)", "Cinematic Score", "Ambient SFX", "Creative Score", "(No Vocals)", "(No Vocal, No Music, No SFX, Only Silence)", "(Silence With Ambient Room SFX)"],
+        transitions: ["The Cut", "The Fade", "Fade from Black", "Fade to Black", "Dip to Black", "Fade to White", "The Dissolve", "Superimposition", "Match Cut", "Match Dissolve", "The Iris", "The Wipe", "The Passing Transition", "Whip Pan", "Smash Cut", "J-Cut", "L-Cut"],
         motionBlur: ["Standard Motion Blur", "No Motion Blur", "High Motion Blur", "Long Exposure", "Shutter Angle 180°", "Shutter Angle 90° (Action)", "Shutter Angle 45° (Choppy)", "Shutter Angle 360° (Dreamy)"],
-        audioConstraints: ["(No text overlay, no subtitles)", "(No music, only SFX)", "(Aspect Ratio 9:16)", "Cinematic Score", "Ambient SFX"]
+        aspectRatio: ["16:9 (Widescreen)", "9:16 (Vertical)", "1:1 (Square)", "4:3 (Classic TV)", "2.39:1 (Anamorphic)", "21:9 (Ultra Wide)"]
     };
 
     // Current State (loaded from LS or Defaults)
