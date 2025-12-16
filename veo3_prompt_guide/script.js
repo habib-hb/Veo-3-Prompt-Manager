@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setDressing: ["Crowded", "Empty", "Neon Signs", "Debris/Ruins"],
         artStyle: ["Hyper-realistic", "Photorealistic", "Cinematic 35mm", "Synthwave", "Ghibli Style", "Cyberpunk Anime", "Claymation", "Film Noir", "Wes Anderson Style", "Analog Film Grain"],
         lighting: ["Golden Hour", "Blue Hour", "Hard Light", "Soft Diffused Light", "Rim Lighting", "Chiaroscuro"],
+        motionBlur: ["Standard Motion Blur", "No Motion Blur", "High Motion Blur", "Long Exposure", "Shutter Angle 180°", "Shutter Angle 90° (Action)", "Shutter Angle 45° (Choppy)", "Shutter Angle 360° (Dreamy)"],
         audioConstraints: ["(No text overlay, no subtitles)", "(No music, only SFX)", "(Aspect Ratio 9:16)", "Cinematic Score", "Ambient SFX"]
     };
 
@@ -183,8 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
         sections.forEach(section => {
             const sectionKey = section.getAttribute('data-key');
             
-            // Gather text inputs
-            const textVal = section.querySelector('.extra-details').value.trim();
+            // Gather text inputs (Scoped to direct child to avoid nested sections)
+            const textEl = section.querySelector(':scope > .extra-details');
+            const textVal = textEl ? textEl.value.trim() : "";
             
             // Gather selected buttons via DOM (simpler than syncing state for this purpose)
             const inputs = [];

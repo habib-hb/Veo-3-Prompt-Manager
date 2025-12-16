@@ -104,7 +104,7 @@
         <!-- 2. SUBJECT -->
         <section id="subject" class="prompt-section" data-key="Subject">
             <h2>2. Subject</h2>
-            <p class="section-intro">Defines WHO is in the scene.</p>
+            <p class="section-intro">Defines WHO or WHAT is in the scene.</p>
             
             <div class="grid">
                 <div class="card full-width-card" data-category="subjectDetails">
@@ -177,6 +177,24 @@
                     <div class="options-grid"></div>
                 </div>
             </div>
+            </div>
+
+            <!-- Depth Layers -->
+            <div class="depth-grid">
+                <div class="prompt-section pseudo-section" data-key="Foreground">
+                    <h3>Foreground</h3>
+                    <textarea class="extra-details" placeholder="Describe foreground..."></textarea>
+                </div>
+                <div class="prompt-section pseudo-section" data-key="Middle Ground">
+                    <h3>Middle Ground</h3>
+                    <textarea class="extra-details" placeholder="Describe middle ground..."></textarea>
+                </div>
+                <div class="prompt-section pseudo-section" data-key="Background">
+                    <h3>Background</h3>
+                    <textarea class="extra-details" placeholder="Describe background..."></textarea>
+                </div>
+            </div>
+
             <textarea class="extra-details" placeholder="Describe the setting..."></textarea>
         </section>
 
@@ -199,6 +217,16 @@
                 <div class="card" data-category="lighting">
                     <div class="card-header">
                         <h3>Lighting</h3>
+                         <div class="controls">
+                            <button class="icon-btn add-btn"><i class="fas fa-plus"></i></button>
+                            <button class="icon-btn del-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+                <div class="card" data-category="motionBlur">
+                    <div class="card-header">
+                        <h3>Motion Blur</h3>
                          <div class="controls">
                             <button class="icon-btn add-btn"><i class="fas fa-plus"></i></button>
                             <button class="icon-btn del-btn"><i class="fas fa-trash"></i></button>

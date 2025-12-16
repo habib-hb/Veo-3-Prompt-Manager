@@ -540,4 +540,32 @@ section {
     border-radius: 3px;
 }
 
+/* Depth Inputs Grid */
+.depth-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.pseudo-section {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    backdrop-filter: none;
+}
+
+.pseudo-section h3 {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .depth-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 
