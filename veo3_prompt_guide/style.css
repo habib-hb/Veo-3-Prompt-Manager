@@ -599,3 +599,50 @@ section {
     display: flex;
     align-items: center;
 }
+
+/* --- MODE SWITCHER --- */
+.mode-switcher-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.mode-tabs {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    padding: 5px;
+    display: flex;
+    gap: 5px;
+    backdrop-filter: blur(10px);
+}
+
+.mode-tab {
+    background: transparent;
+    border: none;
+    padding: 0.6rem 2rem;
+    color: #888;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.mode-tab:hover {
+    color: #fff;
+}
+
+.mode-tab.active {
+    background: var(--accent-color);
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+    font-weight: bold;
+}
+
+/* Visibility Utility */
+.hidden-mode {
+    display: none !important;
+}

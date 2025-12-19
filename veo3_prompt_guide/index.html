@@ -49,6 +49,14 @@
         </div>
     </header>
 
+    <!-- MODE SWITCHER -->
+    <div class="mode-switcher-container">
+        <div class="mode-tabs">
+            <button class="mode-tab active" data-mode="video">Video</button>
+            <button class="mode-tab" data-mode="image">Image</button>
+        </div>
+    </div>
+
     <main class="container" style="padding-bottom: 250px;">
         
         <!-- 1. CINEMATOGRAPHY -->
@@ -77,7 +85,7 @@
                     </div>
                     <div class="options-grid"></div>
                 </div>
-                <div class="card" data-category="movement">
+                <div class="card" data-category="movement" data-mode-specific="video">
                     <div class="card-header">
                         <h3>C. Movement <a href="https://www.youtube.com/watch?v=IiyBo-qLDeM" target="_blank" class="info-link" title="Watch Reference"><i class="fas fa-info"></i></a></h3>
                         <div class="controls">
@@ -137,7 +145,7 @@
                     </div>
                     <div class="options-grid"></div>
                 </div>
-                <div class="card full-width-card" data-category="transitions">
+                <div class="card full-width-card" data-category="transitions" data-mode-specific="video">
                     <div class="card-header">
                         <h3>Transitions <a href="https://www.youtube.com/watch?v=TKXBAaQB03U" target="_blank" class="info-link" title="Watch Reference"><i class="fas fa-info"></i></a></h3>
                         <div class="controls">
@@ -227,7 +235,7 @@
                     </div>
                     <div class="options-grid"></div>
                 </div>
-                <div class="card" data-category="motionBlur">
+                <div class="card" data-category="motionBlur" data-mode-specific="video">
                     <div class="card-header">
                         <h3>Motion Blur <a href="https://www.youtube.com/watch?v=SsIEcGbwgN0" target="_blank" class="info-link" title="Watch Reference"><i class="fas fa-info"></i></a></h3>
                          <div class="controls">
@@ -243,7 +251,7 @@
 
         <!-- 6. AUDIO -->
         <!-- 6. AUDIO -->
-        <section id="audio" class="prompt-section" data-key="Audio">
+        <section id="audio" class="prompt-section" data-key="Audio" data-mode-specific="video">
             <h2>6. Audio</h2>
             <div class="grid">
                 <div class="card full-width-card" data-category="audioConstraints">
