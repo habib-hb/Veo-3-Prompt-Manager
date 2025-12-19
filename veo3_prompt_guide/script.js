@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setDressing: ["Crowded", "Empty", "Neon Signs", "Debris/Ruins"],
         artStyle: ["Hyper-realistic", "Photorealistic", "Cinematic 35mm", "Synthwave", "Ghibli Style", "Cyberpunk Anime", "Claymation", "Film Noir", "Wes Anderson Style", "Analog Film Grain", "Attack On Titan Anime", "Pixar", "Unreal Engine", "Batman Cartoon", "Tokyo Ghul Anime", "Arcane"],
         lighting: ["Hard Light", "Soft Diffused Light", "Rim Lighting", "Chiaroscuro", "Tungsten", "Golden Hour", "High Key Lighting", "Low Key Lighting", "Blue Hour", "Smart Side", "Lens Flares", "Bokeh", "Natural Light", "Artificial Light", "Ambient Lighting", "Motivated Lighting"],
-        audioConstraints: ["(No text overlay, no subtitles)", "(No music, only SFX)", "Cinematic Score", "Ambient SFX", "Creative Score", "(No Vocals)", "(No Vocal, No Music, No SFX, Only Silence)", "(Silence With Ambient Room SFX)"],
+        audioConstraints: ["(No text overlay, no subtitles)", "(No music, only SFX)", "(No Vocals)", "Vocals", "Background Music", "Ambience (Environmental Sounds)", "Foley SFX", "Creative SFX", "Absence of Sound (Silence)", "Panning", "L Cut", "J Cut", "EQ (Equalization)"],
         transitions: ["The Cut", "The Fade", "Fade from Black", "Fade to Black", "Dip to Black", "Fade to White", "The Dissolve", "Superimposition", "Match Cut", "Match Dissolve", "The Iris", "The Wipe", "The Passing Transition", "Whip Pan", "Smash Cut", "J-Cut", "L-Cut"],
         motionBlur: ["Standard Motion Blur", "No Motion Blur", "High Motion Blur", "Long Exposure", "Shutter Angle 180°", "Shutter Angle 90° (Action)", "Shutter Angle 45° (Choppy)", "Shutter Angle 360° (Dreamy)"],
         aspectRatio: ["16:9 (Widescreen)", "9:16 (Vertical)", "1:1 (Square)", "4:3 (Classic TV)", "2.39:1 (Anamorphic)", "21:9 (Ultra Wide)"]
@@ -192,7 +192,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Gather selected buttons via DOM (simpler than syncing state for this purpose)
             const inputs = [];
             const activeBtns = section.querySelectorAll('.option-btn.active');
-            activeBtns.forEach(btn => inputs.push(btn.textContent)); // Use textContent for exact match
+            activeBtns.forEach(btn => {
+                let val = btn.textContent;
+                const category = btn.closest('.card')?.dataset.category;
+                if (category === 'transitions' && !val.toLowerCase().endsWith(' transition')) {
+                    val += " transition";
+                }
+                inputs.push(val);
+            });
 
             if (textVal) inputs.push(textVal);
 
@@ -364,8 +371,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     // A. Try exact match
                     for (const catKey of catKeys) {
                         const opts = appData[catKey];
-                        if (opts && opts.includes(part)) {
-                            updateSelectionState(catKey, part, true);
+                        
+                        // Handle transition suffix
+                        let lookup = part;
+                        if (catKey === 'transitions' && part.toLowerCase().endsWith(' transition')) {
+                             lookup = part.substring(0, part.length - 11); 
+                        }
+
+                        if (opts && opts.includes(lookup)) {
+                            updateSelectionState(catKey, lookup, true);
                             foundMatch = true;
                             break; 
                         }

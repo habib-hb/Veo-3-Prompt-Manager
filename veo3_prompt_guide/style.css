@@ -569,3 +569,33 @@ section {
 }
 
 
+
+/* Info Links */
+.info-link {
+    margin-left: 8px;
+    color: #000000;      /* Black text */
+    font-size: 0.75rem;  /* Slightly readable size for black on yellow */
+    font-weight: 600;    /* Semi-bold for readability */
+    transition: opacity 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 50%;
+    background: #ffcc00; /* Yellow from logo gradient */
+}
+
+.info-link:hover {
+    opacity: 0.7;
+    transform: none;
+    filter: none;
+}
+
+.card-header h3 {
+    display: flex;
+    align-items: center;
+}
