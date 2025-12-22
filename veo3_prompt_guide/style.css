@@ -163,6 +163,38 @@ section {
 .add-btn:hover { color: var(--accent-color); border-color: var(--accent-color); }
 .del-btn:hover { color: var(--danger-color); border-color: var(--danger-color); }
 
+/* RESET BUTTON */
+.section-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.section-header-container h2 {
+    margin-bottom: 0; 
+}
+
+.reset-mode-btn {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--accent-secondary);
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.reset-mode-btn:hover {
+    background: rgba(255, 69, 58, 0.2);
+    border-color: var(--danger-color);
+    box-shadow: 0 0 10px rgba(255, 69, 58, 0.3);
+}
+
 
 /* Options Grid & Buttons */
 .options-grid {

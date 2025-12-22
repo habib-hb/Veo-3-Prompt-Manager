@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veo 3 Prompt Builder | Director's Toolkit</title>
+    <title>Lucky Prompter | Creatives Toolkit</title>
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,16 +52,20 @@
     <!-- MODE SWITCHER -->
     <div class="mode-switcher-container">
         <div class="mode-tabs">
-            <button class="mode-tab active" data-mode="video">Video</button>
+            <button class="mode-tab" data-mode="writing">Writing</button>
             <button class="mode-tab" data-mode="image">Image</button>
+            <button class="mode-tab active" data-mode="video">Video</button>
         </div>
     </div>
 
     <main class="container" style="padding-bottom: 250px;">
         
-        <!-- 1. CINEMATOGRAPHY -->
-        <section id="cinematography" class="prompt-section" data-key="Cinematography">
-            <h2>1. Cinematography</h2>
+        <!-- 1. CINEMATOGRAPHY (Shared by Video/Image) -->
+        <section id="cinematography" class="prompt-section" data-key="Cinematography" data-mode-specific="video image">
+            <div class="section-header-container">
+                <h2>1. Cinematography</h2>
+                <button class="reset-mode-btn" title="Reset all fields for this mode"><i class="fas fa-undo"></i></button>
+            </div>
             <p class="section-intro">Defines how the scene is shot.</p>
             
             <div class="grid">
@@ -110,7 +114,7 @@
         </section>
 
         <!-- 2. SUBJECT -->
-        <section id="subject" class="prompt-section" data-key="Subject">
+        <section id="subject" class="prompt-section" data-key="Subject" data-mode-specific="video image">
             <h2>2. Subject</h2>
             <p class="section-intro">Defines WHO or WHAT is in the scene.</p>
             
@@ -130,7 +134,7 @@
         </section>
 
         <!-- 3. ACTION -->
-        <section id="action" class="prompt-section" data-key="Action">
+        <section id="action" class="prompt-section" data-key="Action" data-mode-specific="video image">
             <h2>3. Action</h2>
             <p class="section-intro">Defines WHAT is happening.</p>
             
@@ -160,7 +164,7 @@
         </section>
 
         <!-- 4. CONTEXT -->
-        <section id="context" class="prompt-section" data-key="Context">
+        <section id="context" class="prompt-section" data-key="Context" data-mode-specific="video image">
             <h2>4. Context & Setting</h2>
              <p class="section-intro">Defines WHERE and WHEN.</p>
             <div class="grid">
@@ -207,7 +211,7 @@
         </section>
 
         <!-- 5. VISUAL STYLE -->
-        <section id="visual-style" class="prompt-section" data-key="Style & Ambiance">
+        <section id="visual-style" class="prompt-section" data-key="Style & Ambiance" data-mode-specific="video image">
             <h2>5. Style & Ambiance</h2>
             <p class="section-intro">Defines the aesthetic soul.</p>
             
@@ -269,7 +273,7 @@
         </section>
 
         <!-- 7. ASPECT RATIO -->
-        <section id="aspect-ratio" class="prompt-section" data-key="Aspect Ratio">
+        <section id="aspect-ratio" class="prompt-section" data-key="Aspect Ratio" data-mode-specific="video image">
             <h2>7. Aspect Ratio</h2>
             <div class="grid">
                 <div class="card full-width-card" data-category="aspectRatio">
@@ -287,10 +291,293 @@
         </section>
 
         <!-- 8. ADDITIONAL DETAILS -->
-        <section id="additional-details" class="prompt-section" data-key="Additional Details">
+        <section id="additional-details" class="prompt-section" data-key="Additional Details" data-mode-specific="video image">
             <h2>8. Additional Details</h2>
             <textarea class="extra-details" placeholder="Add any extra instructions, negative prompts, or details..." style="min-height: 120px;"></textarea>
         </section>
+
+        <!-- WRITING SECTIONS -->
+        
+        <!-- 1. ROLE & PERSONA -->
+        <section id="writing-role" class="prompt-section" data-key="Role & Persona" data-mode-specific="writing" style="display: none;">
+            <div class="section-header-container">
+                <h2>1. Role & Persona</h2>
+                <button class="reset-mode-btn" title="Reset all fields for this mode"><i class="fas fa-undo"></i></button>
+            </div>
+            <p class="section-intro">Defines the "mask" the AI wears.</p>
+            <div class="grid">
+                <div class="card" data-category="writing_role_professional">
+                    <div class="card-header">
+                        <h3>A. Professional Archetypes</h3>
+                        <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+                <div class="card" data-category="writing_role_creative">
+                    <div class="card-header">
+                        <h3>B. Creative & Character</h3>
+                        <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+            </div>
+            <textarea class="extra-details" placeholder="Custom role details..."></textarea>
+        </section>
+
+        <!-- 2. FORMAT & GENRE -->
+        <section id="writing-format" class="prompt-section" data-key="Format & Genre" data-mode-specific="writing" style="display: none;">
+            <h2>2. Format & Genre</h2>
+            <p class="section-intro">Specifies the exact type of content.</p>
+            <div class="grid">
+                <div class="card" data-category="writing_format_business">
+                    <div class="card-header">
+                        <h3>A. Business & Marketing</h3>
+                        <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+                <div class="card" data-category="writing_format_social">
+                    <div class="card-header">
+                        <h3>B. Social Media</h3>
+                        <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+                <div class="card" data-category="writing_format_creative">
+                    <div class="card-header">
+                        <h3>C. Creative Writing</h3>
+                        <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+                <div class="card" data-category="writing_format_academic">
+                    <div class="card-header">
+                        <h3>D. Non-Fiction/Academic</h3>
+                        <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+            </div>
+            <textarea class="extra-details" placeholder="Custom format details..."></textarea>
+        </section>
+
+        <!-- 3. TONE & VOICE -->
+        <section id="writing-tone" class="prompt-section" data-key="Tone & Voice" data-mode-specific="writing" style="display: none;">
+            <h2>3. Tone & Voice</h2>
+             <p class="section-intro">Controls the emotional texture.</p>
+             <div class="grid">
+                <div class="card" data-category="writing_tone_professional">
+                    <div class="card-header">
+                        <h3>A. Professional Scale</h3>
+                        <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+                <div class="card" data-category="writing_tone_emotional">
+                    <div class="card-header">
+                        <h3>B. Emotional Scale</h3>
+                        <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+                <div class="card full-width-card" data-category="writing_tone_stylistic">
+                    <div class="card-header">
+                        <h3>C. Stylistic Scale</h3>
+                        <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+             </div>
+             <textarea class="extra-details" placeholder="Custom tone details..."></textarea>
+        </section>
+
+        <!-- 4. TARGET AUDIENCE -->
+        <section id="writing-audience" class="prompt-section" data-key="Target Audience" data-mode-specific="writing" style="display: none;">
+            <h2>4. Target Audience</h2>
+            <div class="grid">
+                <div class="card" data-category="writing_audience_expertise">
+                    <div class="card-header">
+                        <h3>A. Expertise Level</h3>
+                        <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                     <div class="options-grid"></div>
+                </div>
+                 <div class="card" data-category="writing_audience_demographics">
+                    <div class="card-header">
+                        <h3>B. Demographics</h3>
+                        <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                     <div class="options-grid"></div>
+                </div>
+                 <div class="card full-width-card" data-category="writing_audience_professional">
+                    <div class="card-header">
+                        <h3>C. Professional Roles</h3>
+                        <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                     <div class="options-grid"></div>
+                </div>
+            </div>
+             <textarea class="extra-details" placeholder="Custom audience details..."></textarea>
+        </section>
+
+        <!-- 5. STRUCTURAL FRAMEWORK -->
+        <section id="writing-framework" class="prompt-section" data-key="Structural Framework" data-mode-specific="writing" style="display: none;">
+            <h2>5. Structural Framework</h2>
+            <div class="grid">
+                <div class="card" data-category="writing_framework_marketing">
+                    <div class="card-header">
+                        <h3>A. Marketing Formulas</h3>
+                         <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+                <div class="card" data-category="writing_framework_story">
+                    <div class="card-header">
+                        <h3>B. Storytelling</h3>
+                         <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+                <div class="card" data-category="writing_framework_logic">
+                    <div class="card-header">
+                        <h3>C. Logical Structures</h3>
+                         <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+            </div>
+             <textarea class="extra-details" placeholder="Custom framework details..."></textarea>
+        </section>
+
+        <!-- 6. KEY CONSTRAINTS -->
+         <section id="writing-constraints" class="prompt-section" data-key="Key Constraints" data-mode-specific="writing" style="display: none;">
+            <h2>6. Key Constraints</h2>
+             <div class="grid">
+                <div class="card" data-category="writing_constraint_length">
+                    <div class="card-header">
+                        <h3>A. Length</h3>
+                        <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+                 <div class="card" data-category="writing_constraint_format">
+                    <div class="card-header">
+                        <h3>B. Formatting</h3>
+                        <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+                 <div class="card" data-category="writing_constraint_linguistic">
+                    <div class="card-header">
+                        <h3>C. Linguistic</h3>
+                        <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                    </div>
+                    <div class="options-grid"></div>
+                </div>
+             </div>
+              <textarea class="extra-details" placeholder="Custom constraints..."></textarea>
+         </section>
+
+         <!-- 7. STYLISTIC REFERENCES -->
+         <section id="writing-references" class="prompt-section" data-key="Stylistic References" data-mode-specific="writing" style="display: none;">
+             <h2>7. Stylistic References</h2>
+             <div class="grid">
+                 <div class="card" data-category="writing_reference_authors">
+                     <div class="card-header">
+                         <h3>A. Famous Authors</h3>
+                          <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                     </div>
+                     <div class="options-grid"></div>
+                 </div>
+                 <div class="card" data-category="writing_reference_media">
+                     <div class="card-header">
+                         <h3>B. Media Styles</h3>
+                          <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                     </div>
+                     <div class="options-grid"></div>
+                 </div>
+             </div>
+              <textarea class="extra-details" placeholder="Custom references..."></textarea>
+         </section>
+
+         <!-- 8. GOAL/OBJECTIVE -->
+         <section id="writing-goal" class="prompt-section" data-key="Goal/Objective" data-mode-specific="writing" style="display: none;">
+             <h2>8. Goal/Objective</h2>
+             <div class="grid">
+                 <div class="card" data-category="writing_goal_conversion">
+                     <div class="card-header">
+                         <h3>A. Conversion</h3>
+                         <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                     </div>
+                     <div class="options-grid"></div>
+                 </div>
+                 <div class="card" data-category="writing_goal_emotional">
+                     <div class="card-header">
+                         <h3>B. Emotional Impact</h3>
+                         <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                     </div>
+                     <div class="options-grid"></div>
+                 </div>
+                  <div class="card" data-category="writing_goal_info">
+                     <div class="card-header">
+                         <h3>C. Information</h3>
+                         <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                     </div>
+                     <div class="options-grid"></div>
+                 </div>
+             </div>
+              <textarea class="extra-details" placeholder="Custom goals..."></textarea>
+         </section>
+
+          <!-- 9. LANGUAGE -->
+          <section id="writing-language" class="prompt-section" data-key="Language & Dialect" data-mode-specific="writing" style="display: none;">
+              <h2>9. Language & Dialect</h2>
+              <div class="grid">
+                  <div class="card full-width-card" data-category="writing_language">
+                      <div class="card-header">
+                          <h3>Select Language</h3>
+                           <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                      </div>
+                      <div class="options-grid"></div>
+                  </div>
+              </div>
+          </section>
+
+          <!-- 10. HUMANIZE -->
+          <section id="writing-humanize" class="prompt-section" data-key="Humanize & AI Slop Control" data-mode-specific="writing" style="display: none;">
+              <h2>10. Humanize & AI Slop Control</h2>
+              <div class="grid">
+                  <div class="card" data-category="writing_humanize_tone">
+                      <div class="card-header">
+                          <h3>A. Tone & Attitude</h3>
+                           <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                      </div>
+                      <div class="options-grid"></div>
+                  </div>
+                  <div class="card" data-category="writing_humanize_syntax">
+                      <div class="card-header">
+                          <h3>B. Word Choice & Syntax</h3>
+                           <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                      </div>
+                      <div class="options-grid"></div>
+                  </div>
+                  <div class="card full-width-card" data-category="writing_humanize_imagery">
+                      <div class="card-header">
+                          <h3>C. Imagery & Concrete Details</h3>
+                           <div class="controls"><button class="icon-btn add-btn"><i class="fas fa-plus"></i></button><button class="icon-btn del-btn"><i class="fas fa-trash"></i></button></div>
+                      </div>
+                      <div class="options-grid"></div>
+                  </div>
+              </div>
+                <textarea class="extra-details" placeholder="Custom humanization instructions..."></textarea>
+          </section>
+
+          <!-- 11. TOPIC & DETAILS (HEADLINE) -->
+          <section id="writing-topic" class="prompt-section" data-key="Topic & Details" data-mode-specific="writing" style="display: none;">
+              <h2>11. Topic & Details</h2>
+               <p class="section-intro">Define the core subject of your writing. This will also serve as your history title.</p>
+              <textarea class="extra-details" placeholder="Enter the main topic and specific details here..." style="min-height: 120px;"></textarea>
+          </section>
 
     </main>
     

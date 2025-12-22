@@ -1,9 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- MIGRATION LOGIC (VEO3 -> LUCKY PROMPTER) ---
+    function migrateLegacyData() {
+        // 1. Options Data
+        const oldOptions = localStorage.getItem('veo3_options_data');
+        if (oldOptions && !localStorage.getItem('lucky_prompter_options_data')) {
+            console.log("Migrating Options Data...");
+            localStorage.setItem('lucky_prompter_options_data', oldOptions);
+            localStorage.removeItem('veo3_options_data');
+        }
+
+        // 2. History Data
+        const oldHistory = localStorage.getItem('veo3_prompt_history');
+        if (oldHistory && !localStorage.getItem('lucky_prompter_history')) {
+            console.log("Migrating History Data...");
+            localStorage.setItem('lucky_prompter_history', oldHistory);
+            localStorage.removeItem('veo3_prompt_history');
+        }
+
+        // 3. Session Data
+        const oldSession = localStorage.getItem('veo3_session_data');
+        if (oldSession && !localStorage.getItem('lucky_prompter_session_data')) {
+            console.log("Migrating Session Data...");
+            localStorage.setItem('lucky_prompter_session_data', oldSession);
+            localStorage.removeItem('veo3_session_data');
+        }
+    }
+    migrateLegacyData();
     
     // --- 1. STATE MANAGEMENT ---
     
     // Initial Default Data
     const defaultData = {
+        // --- VIDEO/IMAGE COMMON ---
         shotSize: ["Extreme Close-Up (ECU)", "Close-Up (CU)", "Medium Close-Up (MCU)", "Medium Shot (MS)", "Medium Full Shot (MFS)", "Full Shot (FS)", "Wide Shot (WS)", "Extreme Wide Shot (EWS)"],
         cameraAngle: ["Eye-Level", "High Angle", "Low Angle", "Dutch Angle", "Over-the-Shoulder (OTS)", "Point-of-View (POV)"],
         movement: ["Static Shot", "Pan", "Tilt", "Dolly-In", "Dolly-Out", "Tracking Shot", "Crane Shot", "Handheld", "Push In", "Pull Out", "Zoom", "Camera Roll", "Trucking Shot", "Arc Shot", "Boom Shot"],
@@ -18,29 +47,79 @@ document.addEventListener('DOMContentLoaded', () => {
         transitions: ["The Cut", "The Fade", "Fade from Black", "Fade to Black", "Dip to Black", "Fade to White", "The Dissolve", "Superimposition", "Match Cut", "Match Dissolve", "The Iris", "The Wipe", "The Passing Transition", "Whip Pan", "Smash Cut", "J-Cut", "L-Cut"],
         motionBlur: ["Standard Motion Blur", "No Motion Blur", "High Motion Blur", "Long Exposure", "Shutter Angle 180°", "Shutter Angle 90° (Action)", "Shutter Angle 45° (Choppy)", "Shutter Angle 360° (Dreamy)"],
         aspectRatio: ["16:9 (Widescreen)", "9:16 (Vertical)", "1:1 (Square)", "4:3 (Classic TV)", "2.39:1 (Anamorphic)", "21:9 (Ultra Wide)"],
-        colorPalettes: ["Monochromatic", "Analogous", "Complementary", "Split-Complementary", "Triadic", "Tetradic", "Warm Tones", "Cool Tones", "Pastel", "Neon/Cyberpunk", "Earth Tones", "Black & White", "Sepia", "Vintage/Retro", "High Contrast", "Muted/Desaturated"]
+        colorPalettes: ["Monochromatic", "Analogous", "Complementary", "Split-Complementary", "Triadic", "Tetradic", "Warm Tones", "Cool Tones", "Pastel", "Neon/Cyberpunk", "Earth Tones", "Black & White", "Sepia", "Vintage/Retro", "High Contrast", "Muted/Desaturated"],
+
+        // --- WRITING MODE DATA ---
+        // 1. ROLE & PERSONA
+        writing_role_professional: ["Marketing Guru", "Senior Developer", "Legal Consultant", "Data Analyst", "SEO Expert", "Investigative Journalist", "Product Manager", "Customer Support"],
+        writing_role_creative: ["Stand-up Comedian", "Grumpy Old Man", "Gen-Z Influencer", "Victorian Poet", "Sci-Fi Novelist", "Motivational Speaker", "Devil's Advocate", "Philosopher"],
+        
+        // 2. FORMAT & GENRE
+        writing_format_business: ["Email Subject Line", "Cold Email", "Facebook Ad", "Landing Page Header", "Press Release", "Case Study", "Whitepaper", "Job Description"],
+        writing_format_social: ["Twitter/X Thread", "LinkedIn Post", "Instagram Caption", "TikTok Script", "YouTube Description", "Video Title"],
+        writing_format_creative: ["Short Story", "Flash Fiction", "Screenplay Scene", "Haiku", "Sonnet", "Song Lyrics", "Stand-up Bit", "Roast"],
+        writing_format_academic: ["Blog Post", "Essay", "Technical Tutorial", "News Article", "Executive Summary", "Meeting Minutes"],
+
+        // 3. TONE & VOICE
+        writing_tone_professional: ["Formal", "Corporate", "Academic", "Authoritative", "Diplomatic", "Objective", "Instructional"],
+        writing_tone_emotional: ["Empathetic", "Enthusiastic", "Urgent", "Melancholic", "Optimistic", "Angry", "Nostalgic"],
+        writing_tone_stylistic: ["Witty", "Sarcastic", "Dry/Deadpan", "Whimsical", "Minimalist", "Flowery", "Edgy", "Controversial"],
+
+        // 4. TARGET AUDIENCE
+        writing_audience_expertise: ["Complete Beginner", "Intermediate", "Subject Matter Expert", "Insiders"],
+        writing_audience_demographics: ["Children (5-10)", "Teenagers", "Gen-Z", "Millennials", "Seniors", "Parents", "Students"],
+        writing_audience_professional: ["C-Suite Executives", "Investors", "Developers", "Designers", "Small Business Owners", "Hiring Managers"],
+
+        // 5. STRUCTURAL FRAMEWORK
+        writing_framework_marketing: ["AIDA (Attn-Int-Des-Act)", "PAS (Prob-Agit-Sol)", "FAB (Feat-Adv-Ben)", "The 4 Ps", "Before-After-Bridge"],
+        writing_framework_story: ["Hero's Journey", "Three-Act Structure", "In Media Res", "Save the Cat", "Cliffhanger Ending", "Non-Linear"],
+        writing_framework_logic: ["Pros vs. Cons", "Chronological", "Step-by-Step", "Listicle", "Problem & Solution", "ELI5 (Explain Like I'm 5)"],
+
+        // 6. KEY CONSTRAINTS
+        writing_constraint_length: ["Short (<100 words)", "Medium (300-500 words)", "Long Form (1000+)", "Micro-copy (Tweet size)"],
+        writing_constraint_format: ["Bullet Points Only", "Numbered List", "Table Format", "Dialogue Only", "No Emojis", "Markdown", "HTML Code"],
+        writing_constraint_linguistic: ["No Adverbs", "No Jargon", "Use Metaphors", "Rhyming (AABB)", "Rhyming (ABAB)", "First Person ('I')", "Third Person"],
+
+        // 7. STYLISTIC REFERENCES
+        writing_reference_authors: ["Hemingway (Punchy)", "Shakespeare (Old English)", "Stephen King (Thriller)", "Oscar Wilde (Witty)", "Jane Austen (Classic)"],
+        writing_reference_media: ["TechCrunch Article", "BuzzFeed Listicle", "NY Times Op-Ed", "Reddit Thread", "TED Talk", "Apple Keynote", "Wes Anderson Narration", "Film Noir Voiceover"],
+
+        // 8. GOAL/OBJECTIVE
+        writing_goal_conversion: ["Drive Clicks", "Sell a Product", "Collect Emails", "Get Retweets", "Book a Call"],
+        writing_goal_emotional: ["Make them Laugh", "Make them Cry", "Shock Value", "Inspire Hope", "Create Suspense", "Build Trust"],
+        writing_goal_info: ["Educate", "Summarize", "Simplify", "Debunk a Myth", "Spark Debate", "Rank on SEO"],
+
+        // 9. LANGUAGE
+        writing_language: ["English (US)", "English (UK)", "English (Aussie)", "Bengali (Bangladesh)", "Bengali (West Bengal)"],
+
+        // 10. HUMANIZE
+        writing_humanize_tone: ["No Hedging", "Strong Opinions", "Use Contractions", "Active Voice Only", "No 'In Conclusion'", "Zero Nuance", "Start with 'And/But'", "First Person ('I')", "Biased Perspective"],
+        writing_humanize_syntax: ["No Adverbs (-ly)", "No Jargon", "Max 3 Syllables", "Short Sentences", "Fragments OK", "Eighth Grade Level", "Street Slang", "Min 2 Fragments/Para", "Stream of Consciousness"],
+        writing_humanize_imagery: ["Sensory Details", "Household Metaphors", "Concrete Imagery", "Show Don't Tell", "Smell/Touch/Taste", "Avoid Abstract Nouns", "Visceral Descriptions", "No 'Success/Freedom' concepts"]
     };
 
     // Current State (loaded from LS or Defaults)
     let appData = {};
     
-    // Split State for Video vs Image
+    // Split State for Video vs Image vs Writing
     let currentMode = 'video';
     
-    // Structure: { video: { category: [vals] }, image: { category: [vals] } }
+    // Structure: { video: { category: [vals] }, image: { category: [vals] }, writing: { category: [vals] } }
     let activeSelections = {
         video: {},
-        image: {}
+        image: {},
+        writing: {}
     };
     
-    // Structure: { video: { sectionKey: "text" }, image: { sectionKey: "text" } }
+    // Structure: { video: { sectionKey: "text" }, image: { sectionKey: "text" }, writing: { sectionKey: "text" } }
     let textInputsData = {
         video: {},
-        image: {}
+        image: {},
+        writing: {}
     };
 
     function loadState() {
-        const storedOptions = localStorage.getItem('veo3_options_data');
+        const storedOptions = localStorage.getItem('lucky_prompter_options_data');
         if (storedOptions) {
             appData = JSON.parse(storedOptions);
             // Merge defaults
@@ -53,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function saveState() {
-        localStorage.setItem('veo3_options_data', JSON.stringify(appData));
+        localStorage.setItem('lucky_prompter_options_data', JSON.stringify(appData));
     }
 
     // --- 2. RENDER LOGIC ---
@@ -102,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             activeSelections[currentMode][category] = activeSelections[currentMode][category].filter(item => item !== value);
         }
+        saveSessionState();
     }
 
     // --- 3. MODE SWITCHING LOGIC ---
@@ -127,6 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 2. Update Mode
         currentMode = newMode;
+        saveSessionState(); 
         
         // 3. Update Tab UI
         document.querySelectorAll('.mode-tab').forEach(t => {
@@ -147,11 +228,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateVisibilityForMode() {
-        // 1. Toggle Element Visibility
+        // 1. Toggle Element Visibility based on data-mode-specific
         const allElements = document.querySelectorAll('[data-mode-specific]');
         allElements.forEach(el => {
-            const specificMode = el.dataset.modeSpecific;
-            if (specificMode === currentMode) {
+            const allowedModes = el.dataset.modeSpecific.split(' ');
+            if (allowedModes.includes(currentMode)) {
                 el.classList.remove('hidden-mode');
                 el.style.display = '';
             } else {
@@ -169,7 +250,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 3. Update Section Numbering
+        // 3. Dynamic Header Renaming (Cinematography -> Camera Control for Image)
+        const cineHeader = document.querySelector('#cinematography h2');
+        if (cineHeader) {
+            // We use a regex to preserve the numbering if it exists (e.g. "1. Cinematography")
+            let text = cineHeader.textContent;
+            if (currentMode === 'image') {
+                if (text.includes('Cinematography')) {
+                    cineHeader.textContent = text.replace('Cinematography', 'Camera Control');
+                }
+            } else {
+                if (text.includes('Camera Control')) {
+                    cineHeader.textContent = text.replace('Camera Control', 'Cinematography');
+                }
+            }
+        }
+
+        // 4. Update Section Numbering
         updateSectionNumbering();
     }
 
@@ -178,18 +275,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let counter = 1;
         
         sections.forEach(section => {
-            // Check visibility
-            // We use getComputedStyle because classList/style might not be enough if parent hides it, 
-            // but here we control via hidden-mode class.
             if (section.classList.contains('hidden-mode') || section.style.display === 'none') {
                 return; 
             }
             
-            // Pseudo-sections (Foreground/Middle/Background) don't have numbered H2s usually, 
-            // but let's check the H2 content pattern "X. Title"
             const h2 = section.querySelector('h2');
             if (h2) {
-                // Regex to find "d. Title"
                 const text = h2.textContent;
                 if (text.match(/^\d+\./)) {
                     h2.textContent = text.replace(/^\d+\./, `${counter}.`);
@@ -208,20 +299,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 textInputsData[currentMode][sectionKey] = textEl.value;
             }
         });
+        saveSessionState();
     }
 
     function restoreTextInputs() {
-        document.querySelectorAll('.prompt-section').forEach(section => {
+         // Clear all first to be safe
+         document.querySelectorAll('.extra-details').forEach(el => el.value = '');
+         
+         document.querySelectorAll('.prompt-section').forEach(section => {
             const sectionKey = section.dataset.key;
             const textEl = section.querySelector(':scope > .extra-details');
             if(textEl) {
-                const val = textInputsData[currentMode][sectionKey] || "";
+                const val = textInputsData[currentMode] && textInputsData[currentMode][sectionKey] 
+                            ? textInputsData[currentMode][sectionKey] 
+                            : "";
                 textEl.value = val;
             }
         });
     }
 
-    // --- 4. MODAL LOGIC (ADD/DELETE) ---
+    // --- 4. MODAL LOGIC (ADD/DELETE) & RESET LOGIC ---
+
+    // RESET BUTTON LOGIC
+    document.querySelectorAll('.reset-mode-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+             // 1. Clear Selections for current mode
+             activeSelections[currentMode] = {};
+             
+             // 2. Clear Text Inputs for current mode
+             textInputsData[currentMode] = {};
+             
+             // 3. Clear UI Inputs
+             document.querySelectorAll('.extra-details').forEach(el => el.value = '');
+             
+             // 4. Save & Refresh
+             saveSessionState();
+             renderAllSections();
+             generatePrompt();
+        });
+    });
 
     const modalOverlay = document.getElementById('modal-overlay');
     const addModal = document.getElementById('add-modal');
@@ -279,17 +395,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Remove from data
                 appData[category] = appData[category].filter(o => o !== option);
                 
-                // Remove from active selections (in BOTH modes to be safe)
-                ['video', 'image'].forEach(m => {
+                // Remove from active selections (in ALL modes to be safe)
+                ['video', 'image', 'writing'].forEach(m => {
                     if(activeSelections[m][category]) {
                         activeSelections[m][category] = activeSelections[m][category].filter(o => o !== option);
                     }
                 });
 
                 saveState();
-                renderSection(category); // Re-render main grid
-                populateDeleteList(category); // Re-render modal list
-                generatePrompt(); // Update prompt output
+                renderSection(category); 
+                populateDeleteList(category);
+                generatePrompt(); 
             });
 
             item.appendChild(text);
@@ -332,19 +448,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const textEl = section.querySelector(':scope > .extra-details');
             const textVal = textEl ? textEl.value.trim() : "";
             
-            // Gather selected buttons via DOM checking for active state
+            // Gather selected buttons via DOM state for convenience
             const inputs = [];
             const activeBtns = section.querySelectorAll('.option-btn.active');
             activeBtns.forEach(btn => {
-                // Double check if this card is hidden
                 const card = btn.closest('.card');
                 if (card && (card.classList.contains('hidden-mode') || card.style.display === 'none')) return;
 
                 let val = btn.textContent;
                 const category = card?.dataset.category;
                 
-                // Transitons suffix logic
-                if (category === 'transitions' && !val.toLowerCase().endsWith(' transition')) {
+                // Transitons suffix (Video Only)
+                if (currentMode === 'video' && category === 'transitions' && !val.toLowerCase().endsWith(' transition')) {
                     val += " transition";
                 }
                 inputs.push(val);
@@ -372,7 +487,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Text Input Listener
     document.querySelectorAll('.extra-details').forEach(input => {
         input.addEventListener('input', () => {
-             // Save immediately so state is consistent before any switch
              saveCurrentTextInputs();
              generatePrompt();
         });
@@ -398,7 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const historyList = document.getElementById('history-list');
 
     function loadHistory() {
-        const stored = localStorage.getItem('veo3_prompt_history');
+        const stored = localStorage.getItem('lucky_prompter_history');
         if (stored) {
             historyData = JSON.parse(stored);
             renderHistory();
@@ -406,31 +520,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function saveHistory() {
-        localStorage.setItem('veo3_prompt_history', JSON.stringify(historyData));
+        localStorage.setItem('lucky_prompter_history', JSON.stringify(historyData));
     }
 
     function addToHistory(fullText) {
         let title = "Untitled Prompt";
-        const subjectMatch = fullText.match(/\[Subject\]: (.*)/);
-        if (subjectMatch) {
-            const words = subjectMatch[1].split(' ');
-            title = words.slice(0, 3).join(' ') + (words.length > 3 ? "..." : "");
+        
+        // Custom Title Logic based on Mode
+        if (currentMode === 'writing') {
+             // For writing, grab "Topic & Details"
+             const topicMatch = fullText.match(/\[Topic & Details\]: (.*)/);
+             if (topicMatch) {
+                 const words = topicMatch[1].split(' ');
+                 title = words.slice(0, 5).join(' ') + (words.length > 5 ? "..." : "");
+             } else {
+                 title = "Untitled Writing";
+             }
         } else {
-            const words = fullText.split(' ');
-            title = words.slice(0, 3).join(' ') + "...";
+            // Video/Image (Subject)
+            const subjectMatch = fullText.match(/\[Subject\]: (.*)/);
+            if (subjectMatch) {
+                const words = subjectMatch[1].split(' ');
+                title = words.slice(0, 3).join(' ') + (words.length > 3 ? "..." : "");
+            }
         }
         
-        let preview = "";
-        if (subjectMatch) {
-             const words = subjectMatch[1].split(' ');
-             preview = words.slice(0, 50).join(' ') + (words.length > 50 ? "..." : "");
-        }
+        // Fallback for preview
+        let preview = fullText.substring(0, 100).replace(/\n/g, ' ') + "...";
 
         const newItem = {
             id: Date.now(),
-            mode: currentMode, // Save the mode!
+            mode: currentMode, 
             title: title || "Untitled",
-            preview: preview || "No subject details.",
+            preview: preview,
             fullText: fullText,
             timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
         };
@@ -454,12 +576,17 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Badge for Mode
             const badge = document.createElement('span');
-            badge.textContent = item.mode === 'image' ? "IMG" : "VID";
+            let badgeText = "VID";
+            let badgeColor = "var(--accent-color)";
+            if (item.mode === 'image') { badgeText = "IMG"; badgeColor = "var(--accent-secondary)"; }
+            if (item.mode === 'writing') { badgeText = "WRT"; badgeColor = "#ffcc00"; }
+            
+            badge.textContent = badgeText;
             badge.style.fontSize = "0.7rem";
             badge.style.padding = "2px 6px";
             badge.style.borderRadius = "4px";
             badge.style.marginRight = "8px";
-            badge.style.backgroundColor = item.mode === 'image' ? "var(--accent-secondary)" : "var(--accent-color)";
+            badge.style.backgroundColor = badgeColor;
             badge.style.color = "#000";
             badge.style.fontWeight = "bold";
 
@@ -469,8 +596,43 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const titleEl = document.createElement('div');
             titleEl.className = 'history-item-title';
+            titleEl.style.display = 'flex'; // Ensure flex layout for positioning
+            titleEl.style.alignItems = 'center';
+            titleEl.style.width = '100%';
+            
             titleEl.appendChild(badge); // Prepend badge
-            titleEl.append(item.title);
+            
+            const textSpan = document.createElement('span');
+            textSpan.textContent = item.title;
+            // Prevent title from overlapping delete button
+            textSpan.style.whiteSpace = 'nowrap';
+            textSpan.style.overflow = 'hidden';
+            textSpan.style.textOverflow = 'ellipsis';
+            textSpan.style.marginRight = '8px';
+            textSpan.style.flexGrow = '1';
+            
+            titleEl.appendChild(textSpan);
+            
+            // Delete Button
+            const delBtn = document.createElement('button');
+            delBtn.className = 'history-delete-btn';
+            delBtn.innerHTML = '<i class="fas fa-trash"></i>';
+            delBtn.title = "Delete this prompt";
+            
+            delBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Confirm deletion? Maybe not needed for history items, checking user request. 
+                // User didn't ask for confirm on history delete, but it's safe. 
+                // For now, instant delete feels smoother for history management.
+                
+                historyData = historyData.filter(h => h.id !== item.id);
+                saveHistory();
+                renderHistory();
+            });
+            
+            titleEl.appendChild(delBtn);
             
             const dateEl = document.createElement('div');
             dateEl.className = 'history-item-date';
@@ -590,12 +752,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleBtn = document.getElementById('history-toggle-btn');
     const closeBtn = document.getElementById('history-close-btn');
     
-    if(toggleBtn) toggleBtn.addEventListener('click', () => {
+    if(toggleBtn) toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent document click from immediately closing it
         historySidebar.classList.add('open');
         renderHistory(); 
     });
     
     if(closeBtn) closeBtn.addEventListener('click', () => historySidebar.classList.remove('open'));
+
+    // Close History when clicking outside
+    document.addEventListener('click', (e) => {
+        if (historySidebar.classList.contains('open') && 
+            !historySidebar.contains(e.target) && 
+            e.target !== toggleBtn) {
+            historySidebar.classList.remove('open');
+        }
+    });
 
     function saveSessionState() {
         const session = {
@@ -603,89 +775,37 @@ document.addEventListener('DOMContentLoaded', () => {
             textInputsData,
             currentMode
         };
-        localStorage.setItem('veo3_session_data', JSON.stringify(session));
+        localStorage.setItem('lucky_prompter_session_data', JSON.stringify(session));
     }
 
     function loadSessionState() {
-        const stored = localStorage.getItem('veo3_session_data');
+        const stored = localStorage.getItem('lucky_prompter_session_data');
         if (stored) {
             try {
                 const session = JSON.parse(stored);
                 if (session.activeSelections) activeSelections = session.activeSelections;
                 if (session.textInputsData) textInputsData = session.textInputsData;
                 if (session.currentMode) currentMode = session.currentMode;
+                
+                // DATA INTEGRITY CHECK: Ensure all modes exist (fix for stale sessions)
+                ['video', 'image', 'writing'].forEach(mode => {
+                    if (!activeSelections[mode]) activeSelections[mode] = {};
+                    if (!textInputsData[mode]) textInputsData[mode] = {};
+                });
+
             } catch (e) {
                 console.error("Failed to load session", e);
+                // Fallback to init if corrupt
+                activeSelections = { video: {}, image: {}, writing: {} };
+                textInputsData = { video: {}, image: {}, writing: {} };
             }
         }
     }
-
-    // Hook auto-save to actions
-    // 1. Selection interaction
-    // We need to inject saveSessionState() into updateSelectionState
-    const originalUpdateSelection = updateSelectionState;
-    updateSelectionState = function(category, value, isSelected) {
-        if (!activeSelections[currentMode][category]) activeSelections[currentMode][category] = [];
-        
-        if (isSelected) {
-            if (!activeSelections[currentMode][category].includes(value)) {
-                activeSelections[currentMode][category].push(value);
-            }
-        } else {
-            activeSelections[currentMode][category] = activeSelections[currentMode][category].filter(item => item !== value);
-        }
-        saveSessionState();
-    };
-
-    // 2. Text interaction (already have listeners, just hook save)
-    // We already call saveCurrentTextInputs in the listener, let's add saveSessionState there
-    const originalSaveText = saveCurrentTextInputs;
-    saveCurrentTextInputs = function() {
-        document.querySelectorAll('.prompt-section').forEach(section => {
-            const sectionKey = section.dataset.key;
-            const textEl = section.querySelector(':scope > .extra-details');
-            if(textEl) {
-                if(!textInputsData[currentMode][sectionKey]) textInputsData[currentMode][sectionKey] = "";
-                textInputsData[currentMode][sectionKey] = textEl.value;
-            }
-        });
-        saveSessionState();
-    }
-    
-    // 3. Mode switch (already saves text inputs, which now saves session)
-    // But switchMode also changes currentMode, so we should save after switch
-    const originalSwitchMode = switchMode;
-    switchMode = function(newMode) {
-        // 1. Save current text inputs to state
-        saveCurrentTextInputs();
-
-        // 2. Update Mode
-        currentMode = newMode;
-        saveSessionState(); // Save the new mode immediately
-        
-        // 3. Update Tab UI
-        document.querySelectorAll('.mode-tab').forEach(t => {
-            t.classList.toggle('active', t.dataset.mode === currentMode);
-        });
-
-        // 4. Update Visibility
-        updateVisibilityForMode();
-
-        // 5. Restore text inputs from new mode state
-        restoreTextInputs();
-
-        // 6. Re-render selections (visual active state)
-        renderAllSections();
-
-        // 7. Regenerate Prompt
-        generatePrompt();
-    }
-
 
     // --- INIT ---
     loadState();
-    loadSessionState(); // Load draft
-    loadHistory(); // REQUIRED: Load sidebar history
+    loadSessionState(); 
+    loadHistory(); 
     
     initModeSwitcher(); 
     
@@ -694,6 +814,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.mode-tab').forEach(t => {
         t.classList.toggle('active', t.dataset.mode === currentMode);
     });
+    
     // 2. Restore inputs for current mode
     restoreTextInputs();
     
