@@ -493,7 +493,7 @@ section {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--glass-border);
     border-radius: 8px;
-    padding: 1rem;
+    padding: 1rem 3rem 1rem 1rem;
     cursor: pointer;
     transition: all 0.2s;
     position: relative;
@@ -503,6 +503,33 @@ section {
 .history-item:hover {
     background: rgba(0, 255, 136, 0.1);
     border-color: var(--accent-color);
+}
+
+/* History Delete Icon */
+.history-delete-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%) translateX(20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    background: transparent;
+    border: none;
+    color: var(--danger-color);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 5px;
+    z-index: 10;
+}
+
+.history-delete-btn:hover {
+    transform: translateY(-50%) scale(1.1);
+    color: #ff0000;
+}
+
+.history-item:hover .history-delete-btn {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
 }
 
 .history-item-title {
@@ -677,4 +704,12 @@ section {
 /* Visibility Utility */
 .hidden-mode {
     display: none !important;
+}
+
+/* Mobile/Tablet Overrides */
+@media (max-width: 1024px) {
+    .history-delete-btn {
+        opacity: 1 !important;
+        transform: translateY(-50%) translateX(0) !important;
+    }
 }

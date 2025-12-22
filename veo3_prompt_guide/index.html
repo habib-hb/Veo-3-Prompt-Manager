@@ -44,7 +44,7 @@
         <div class="hero-content">
             <div class="logo-container"></div>
             <h1>Interactive Prompt Builder</h1>
-            <p class="section-intro">Select options below to construct your high-control prompt.</p>
+            <p class="section-intro">Your Journey to the Perfect Prompt Begins Now.</p>
             <p class="dev-credit">Made with <i class="fas fa-heart" style="color: #00ff88;"></i> by Habibur R.</p>
         </div>
     </header>
@@ -52,9 +52,9 @@
     <!-- MODE SWITCHER -->
     <div class="mode-switcher-container">
         <div class="mode-tabs">
-            <button class="mode-tab" data-mode="writing">Writing</button>
+            <button class="mode-tab active" data-mode="writing">Writing</button>
             <button class="mode-tab" data-mode="image">Image</button>
-            <button class="mode-tab active" data-mode="video">Video</button>
+            <button class="mode-tab" data-mode="video">Video</button>
         </div>
     </div>
 
@@ -608,6 +608,7 @@
                 <!-- JS will populate this -->
             </div>
             <div class="modal-actions">
+                <button id="cancel-delete" class="modal-btn cancel">Cancel</button>
                 <button id="close-delete" class="modal-btn confirm">Done</button>
             </div>
         </div>

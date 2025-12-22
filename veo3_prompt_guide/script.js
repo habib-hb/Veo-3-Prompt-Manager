@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let appData = {};
     
     // Split State for Video vs Image vs Writing
-    let currentMode = 'video';
+    let currentMode = 'writing';
     
     // Structure: { video: { category: [vals] }, image: { category: [vals] }, writing: { category: [vals] } }
     let activeSelections = {
@@ -428,6 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('cancel-add').addEventListener('click', closeModal);
     document.getElementById('close-delete').addEventListener('click', closeModal);
+    document.getElementById('cancel-delete').addEventListener('click', closeModal);
     modalOverlay.addEventListener('click', (e) => {
         if (e.target === modalOverlay) closeModal();
     });
@@ -558,10 +559,15 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         historyData.unshift(newItem); 
-        if (historyData.length > 50) historyData.pop();
+        if (historyData.length > 1000) historyData.pop();
         saveHistory();
+        // Reset pagination when new item added
+        historyPageSize = 50;
         renderHistory();
     }
+
+    // Pagination State
+    let historyPageSize = 50;
 
     function renderHistory() {
         historyList.innerHTML = '';
@@ -570,7 +576,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        historyData.forEach(item => {
+        const visibleHistory = historyData.slice(0, historyPageSize);
+        
+        visibleHistory.forEach(item => {
             const el = document.createElement('div');
             el.className = 'history-item';
             
@@ -649,6 +657,25 @@ document.addEventListener('DOMContentLoaded', () => {
             
             historyList.appendChild(el);
         });
+
+        // Load More Button
+        if (historyData.length > historyPageSize) {
+            const loadMoreBtn = document.createElement('button');
+            loadMoreBtn.textContent = "Load More";
+            loadMoreBtn.className = "load-more-history-btn"; 
+            // Inline style for simplicity unless added to CSS
+            loadMoreBtn.style.cssText = "width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #888; margin-top: 1rem; cursor: pointer; border-radius: 8px; font-family: var(--font-heading); text-transform: uppercase; transition: all 0.2s;";
+            
+            loadMoreBtn.onmouseover = () => { loadMoreBtn.style.background = "rgba(255,255,255,0.1)"; loadMoreBtn.style.color = "#fff"; };
+            loadMoreBtn.onmouseout = () => { loadMoreBtn.style.background = "rgba(255,255,255,0.05)"; loadMoreBtn.style.color = "#888"; };
+            
+            loadMoreBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                historyPageSize += 50;
+                renderHistory();
+            });
+            historyList.appendChild(loadMoreBtn);
+        }
     }
 
     function restorePrompt(fullText, modeToRestore) {
