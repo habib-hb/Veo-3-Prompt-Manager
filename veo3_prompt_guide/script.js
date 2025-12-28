@@ -437,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function generatePrompt() {
         const sections = document.querySelectorAll('.prompt-section');
-        let fullPrompt = "";
+        let promptObj = {}; // Changed to object for JSON
 
         sections.forEach(section => {
             // SKIP elements hidden by current mode
@@ -469,17 +469,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (textVal) inputs.push(textVal);
 
             if (inputs.length > 0) {
-                const sectionContent = inputs.join(', ');
-                fullPrompt += `[${sectionKey}]: ${sectionContent}\n\n`;
+                promptObj[sectionKey] = inputs.join(', ');
             }
         });
 
         const promptOutput = document.getElementById('generated-prompt');
-        if (fullPrompt.trim() === "") {
+        if (Object.keys(promptObj).length === 0) {
             promptOutput.textContent = "Your Generated Prompt will be shown here.";
             promptOutput.style.color = "#555";
         } else {
-            promptOutput.textContent = fullPrompt.trim();
+            promptOutput.textContent = JSON.stringify(promptObj, null, 4); // JSON Stringify
             promptOutput.style.color = "#00ff88";
             promptOutput.scrollTop = promptOutput.scrollHeight;
         }
@@ -528,21 +527,41 @@ document.addEventListener('DOMContentLoaded', () => {
         let title = "Untitled Prompt";
         
         // Custom Title Logic based on Mode
-        if (currentMode === 'writing') {
-             // For writing, grab "Topic & Details"
-             const topicMatch = fullText.match(/\[Topic & Details\]: (.*)/);
-             if (topicMatch) {
-                 const words = topicMatch[1].split(' ');
-                 title = words.slice(0, 5).join(' ') + (words.length > 5 ? "..." : "");
-             } else {
-                 title = "Untitled Writing";
-             }
-        } else {
-            // Video/Image (Subject)
-            const subjectMatch = fullText.match(/\[Subject\]: (.*)/);
-            if (subjectMatch) {
-                const words = subjectMatch[1].split(' ');
-                title = words.slice(0, 3).join(' ') + (words.length > 3 ? "..." : "");
+        // 1. Try to parse as JSON first
+        try {
+            const jsonObj = JSON.parse(fullText);
+            if (currentMode === 'writing') {
+                if (jsonObj['Topic & Details']) {
+                     const words = jsonObj['Topic & Details'].split(' ');
+                     title = words.slice(0, 5).join(' ') + (words.length > 5 ? "..." : "");
+                } else {
+                     title = "Untitled Writing";
+                }
+            } else {
+                // Video/Image
+                if (jsonObj['Subject']) {
+                    const words = jsonObj['Subject'].split(' ');
+                    title = words.slice(0, 3).join(' ') + (words.length > 3 ? "..." : "");
+                }
+            }
+        } catch (e) {
+            // Fallback for legacy format or parsing error
+            if (currentMode === 'writing') {
+                 // For writing, grab "Topic & Details"
+                 const topicMatch = fullText.match(/\[Topic & Details\]: (.*)/);
+                 if (topicMatch) {
+                     const words = topicMatch[1].split(' ');
+                     title = words.slice(0, 5).join(' ') + (words.length > 5 ? "..." : "");
+                 } else {
+                     title = "Untitled Writing";
+                 }
+            } else {
+                // Video/Image (Subject)
+                const subjectMatch = fullText.match(/\[Subject\]: (.*)/);
+                if (subjectMatch) {
+                    const words = subjectMatch[1].split(' ');
+                    title = words.slice(0, 3).join(' ') + (words.length > 3 ? "..." : "");
+                }
             }
         }
         
@@ -690,18 +709,26 @@ document.addEventListener('DOMContentLoaded', () => {
         textInputsData[currentMode] = {}; // Clear memory
         document.querySelectorAll('.extra-details').forEach(el => el.value = ''); // Clear UI
         
-        // 3. Parse Blocks
-        const blocks = fullText.split('\n\n');
-        
-        blocks.forEach(block => {
-            const match = block.match(/^\[(.*?)\]: ([\s\S]*)$/);
-            if(!match) return;
-            
-            const sectionKey = match[1];
-            const content = match[2];
-            
+        // 3. Parse Data (JSON or Legacy)
+        let parsedData = {};
+
+        try {
+            parsedData = JSON.parse(fullText);
+        } catch (e) {
+            // Legacy handling
+            const blocks = fullText.split('\n\n');
+            blocks.forEach(block => {
+                const match = block.match(/^\[(.*?)\]: ([\s\S]*)$/);
+                if (match) {
+                     parsedData[match[1]] = match[2];
+                }
+            });
+        }
+
+        // 4. Populate logic
+        for (const [sectionKey, content] of Object.entries(parsedData)) {
             const sectionEl = document.querySelector(`.prompt-section[data-key="${sectionKey}"]`);
-            if(!sectionEl) return;
+            if(!sectionEl) continue;
             
             // Smart Matching
             const parts = content.split(', ');
@@ -768,9 +795,9 @@ document.addEventListener('DOMContentLoaded', () => {
                      textInputsData[currentMode][sectionKey] = ta.value;
                  }
             }
-        });
+        }
         
-        // 4. Update UI
+        // 5. Update UI
         renderAllSections(); 
         generatePrompt();
     }
